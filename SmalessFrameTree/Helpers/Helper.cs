@@ -7,6 +7,7 @@ namespace Helpers
 {
     public static class Helper
     {
+        private static string PathString { get; set; } = string.Empty;
         public static AdjacencyMatrix InitAdjacencyMatrix(string filePath)
         {
             try
@@ -80,12 +81,12 @@ namespace Helpers
             {
                 for (int j = 0; j < graph.N; j++)
                 {
-                    if(graph.Array[i, j] > 0)
+                    if (graph.Array[i, j] > 0 || graph.Array[i, j] < 0)
                     {
                         edge = new Edge();
                         edge.V = i;
                         edge.W = j;
-                        edge.Weight = graph.Array[i,j];
+                        edge.Weight = graph.Array[i, j];
                         edges[nEdgeCount] = edge;
                         nEdgeCount++;
                     }
@@ -93,20 +94,16 @@ namespace Helpers
             }
 
             edges = edges.Where(e => e != null).ToArray<Edge>();
-            Sort(edges);
-            
             return edges;
         }
 
-        private static void Sort(Edge[] edges)
+        public static void Sort(Edge[] edges)
         {
             Array.Sort(edges, delegate (Edge a, Edge b)
             {
                 return a.Weight.CompareTo(b.Weight);
             });
         }
-
-       
 
         public static int Find(Subset[] subsets, int i)
         {
@@ -130,6 +127,41 @@ namespace Helpers
                 subsets[yroot].Parent = xroot;
                 ++subsets[xroot].Rank;
             }
+        }
+
+        public static void PrintAllSolutions(int source, int[] distances, int[] parents)
+        {
+            int nVertices = distances.Length;
+            int maxValue = int.MaxValue;
+            for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++)
+            {
+                Console.Write($"Duong di ngan nhat tu {source} den {vertexIndex}: \t");
+                if (maxValue == distances[vertexIndex])
+                {
+                    Console.Write("Khong co");
+                    continue;
+                }
+                else { Console.Write($"{distances[vertexIndex]} \t"); }
+
+                PrintPath(vertexIndex, parents);
+                if (!string.IsNullOrEmpty(PathString))
+                {
+                    Console.Write(PathString.Substring(0, PathString.Length - 4));
+                }
+                else { Console.Write("Khong co duong di."); }
+                Console.WriteLine();
+            }
+        }
+
+        private static void PrintPath(int currentVertex, int[] parents)
+        {
+            PathString = string.Empty;
+            int NO_PARENT = -1;
+            if (currentVertex == NO_PARENT)
+                return;
+
+            PrintPath(parents[currentVertex], parents);
+            PathString += currentVertex + " -> ";
         }
     }
 }

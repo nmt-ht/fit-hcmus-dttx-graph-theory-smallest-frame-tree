@@ -12,16 +12,27 @@ namespace SmalessFrameTree
             Helper.PrintMatrixToScreen(matrix);
             Console.WriteLine();
 
-            Console.WriteLine("*** PRIM'S Algorithm ***");
+            //Console.WriteLine("*** PRIM'S Algorithm ***");
+            //Console.WriteLine("Please input start vertice: ");
+            //var startVertice = int.Parse(Console.ReadLine().ToString());
+            //Algorithm algorithm = new Algorithm();
+            //algorithm.Prim(matrix, startVertice);
+
+            //Console.WriteLine();
+            //Console.WriteLine("*** KRUSKAL'S Algorithm ***");
+            //algorithm.Kruskal(matrix);
+            //Console.ReadLine();
+
+            Algorithm algorithm = new Algorithm();
+            Console.WriteLine("*** Dijkstra's Algorithm ***");
             Console.WriteLine("Please input start vertice: ");
             var startVertice = int.Parse(Console.ReadLine().ToString());
-            Algorithm algorithm = new Algorithm();
-            algorithm.Prim(matrix, startVertice);
-            
-            Console.WriteLine();
-            Console.WriteLine("*** KRUSKAL'S Algorithm ***");
-            algorithm.Kruskal(matrix);
-            Console.ReadLine();
+            algorithm.Dijkstra(matrix, startVertice);
+
+            //Console.WriteLine("*** Bellman-Ford's Algorithm ***");
+            //Console.WriteLine("Please input start vertice: ");
+            //var start = int.Parse(Console.ReadLine().ToString());
+            //algorithm.BellmanFord(matrix, start);
         }
     }
 }
